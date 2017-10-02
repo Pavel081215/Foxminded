@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Foxminded</string>
+    <string name="app_name">FoxmindedAnagrams</string>
+    <string name="anagrams">Anagrams</string>
+    <string name="result">Result</string>
+    <string name="button">GET</string>
 </resources>
+
