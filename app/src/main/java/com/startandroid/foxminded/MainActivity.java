@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
     private EditText editText;
-    //    private Button button;
     private char[] textOfLayout;
     private char[] anagram;
     private final String TAG = "MYLOG";
@@ -25,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.textView);
         editText = (EditText) findViewById(R.id.editText);
-//        button = (Button) findViewById(R.id.button);
         anagram = null;
 
         Log.i(TAG, "onCreate finish");
@@ -42,13 +39,17 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < textOfLayout.length; i++) {
             char temp = textOfLayout[i];
 
-            if (checkLatinAlphabet(temp)) {
+
+            if (!(temp == ' ')) {
                 finishLetter++;
+
+
                 if (i == textOfLayout.length - 1) {
                     rearrangingLetter(startLetter, finishLetter);
                 }
             } else {
                 rearrangingLetter(startLetter, finishLetter);
+
                 startLetter = finishLetter + 1;
                 finishLetter = finishLetter + 1;
                 anagram[i] = textOfLayout[i];
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     private static boolean checkLatinAlphabet(char c) {
 
@@ -81,10 +83,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void rearrangingLetter(int start, int finish) {
+
+        int temp = 0;
+
+        int numberOfLetters = numberOfLetters(start, finish); // количестов не букв в слове
+        int indexesChangePlace[] = new int[numberOfLetters];   // массив для индексов которые надоменять местами
+
+
         for (int i = 0; i < finish - start; i++) {
-            anagram[start + i] = textOfLayout[finish - i - 1];
+            if (checkLatinAlphabet(textOfLayout[start + i])) {
+                indexesChangePlace[temp] = start + i;
+                temp++;
+            } else {
+                anagram[start + i] = textOfLayout[start + i];
+            }
         }
+
+        for (int i = 0; i < indexesChangePlace.length; i++) {
+            anagram[indexesChangePlace[i]] = textOfLayout[indexesChangePlace[indexesChangePlace.length - i - 1]];
+        }
+    }
+
+    private int numberOfLetters(int start, int finish) {
+
+        int number = 0;
+        for (int i = 0; i < finish - start; i++) {
+            if (checkLatinAlphabet(textOfLayout[start + i])) {
+                number++;
+            }
+        }
+        return number;
     }
 
 
